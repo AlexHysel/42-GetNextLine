@@ -6,7 +6,7 @@
 /*   By: afomin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:21:16 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/06 19:10:22 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/06 19:32:45 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 char	*get_next_line(int fd);
 void	stash_expand(char **stash, char *buffer, ssize_t len);
+char	line_end_found(char *buffer);
 size_t	get_len(char *str);
 
 #endif
