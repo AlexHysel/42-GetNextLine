@@ -6,7 +6,7 @@
 /*   By: afomin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/07 14:44:12 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/07 17:49:48 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_next_line(int fd)
 		if (was_read < 0)
 			return (NULL);
 		if (was_read == 0)
-			break ;
+			return (NULL);
 		buffer[was_read] = '\0';
 		stash_expand(&stash, buffer, was_read);
 	}
@@ -42,8 +42,8 @@ int	main(void)
 
 	while (line)
 	{
-		line = get_next_line(fd);
 		if (line)
-			printf("%d: %s", i++, line);
+			printf("%d, %d: %s", BUFFER_SIZE, i++, line);
+		line = get_next_line(fd);	
 	}
 }
