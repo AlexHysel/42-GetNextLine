@@ -6,12 +6,12 @@
 /*   By: afomin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/07 17:49:48 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/09 13:59:06 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
+//#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
@@ -24,26 +24,31 @@ char	*get_next_line(int fd)
 		if (stash && line_end_found(stash))
 			break ;
 		was_read = read(fd, buffer, BUFFER_SIZE);
-		if (was_read < 0)
-			return (NULL);
-		if (was_read == 0)
+		if (was_read <= 0)
 			return (NULL);
 		buffer[was_read] = '\0';
 		stash_expand(&stash, buffer, was_read);
 	}
 	return (stash_extract_line(&stash));
 }
-
-int	main(void)
+/*
+int	main(int arg_count, char *args[])
 {
-	int		fd = open("get_next_line.h", O_RDONLY);
-	int		i = 0;
-	char	*line = get_next_line(fd);
+	int		fd;
+	char	*line;
 
+	if (arg_count > 1)
+		fd = open(args[1], O_RDONLY);
+	else
+		fd = open("get_next_line.h", O_RDONLY);
+
+	line = get_next_line(fd);
+
+	printf("\n===== TEST =====\nBUFFER SIZE = %d\n", BUFFER_SIZE);
 	while (line)
 	{
-		if (line)
-			printf("%d, %d: %s", BUFFER_SIZE, i++, line);
-		line = get_next_line(fd);	
+		printf("%s", line);
+		line = get_next_line(fd);
 	}
-}
+	printf("================\n\n");
+}*/
