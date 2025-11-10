@@ -6,24 +6,24 @@
 /*   By: afomin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 14:00:13 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/10 13:42:16 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/10 13:54:19 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 //#include <stdio.h>
 
-static fd_list_node	*node_by_fd(fd_list_node *list, int fd)
+static t_fd_list	*node_by_fd(t_fd_list *list, int fd)
 {
 	while (list && list->fd != fd)
 		list = list->next;
 	return (list);
 }
 
-static void	remove_node(int fd, fd_list_node **list)
+static void	remove_node(int fd, t_fd_list **list)
 {
-	fd_list_node	*prev_n;
-	fd_list_node	*curr_n;
+	t_fd_list	*prev_n;
+	t_fd_list	*curr_n;
 
 	if (*list)
 	{
@@ -47,14 +47,14 @@ static void	remove_node(int fd, fd_list_node **list)
 	}
 }
 
-static fd_list_node	*add_node(fd_list_node **list, int fd)
+static t_fd_list	*add_node(t_fd_list **list, int fd)
 {
-	fd_list_node	*node;
+	t_fd_list	*node;
 
 	node = node_by_fd(*list, fd);
 	if (node)
 		return (node);
-	node = malloc(sizeof(fd_list_node));
+	node = malloc(sizeof(t_fd_list));
 	if (node)
 	{
 		node->fd = fd;
@@ -74,8 +74,8 @@ static fd_list_node	*add_node(fd_list_node **list, int fd)
 
 char	*get_next_line(int fd)
 {
-	static fd_list_node	*list;
-	fd_list_node		*node;
+	static t_fd_list	*list;
+	t_fd_list			*node;
 	char				buffer[BUFFER_SIZE + 1];
 	ssize_t				was_read;
 

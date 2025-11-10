@@ -25,7 +25,6 @@ char	*get_next_line(int fd);
 void	stash_expand(char **stash, char *buffer, ssize_t len);
 char	*stash_extract_line(char **stash);
 char	line_end_found(char *buffer);
-size_t	_strlen(char *str);
 char	*_substr(char *str, unsigned int start, size_t len);
 
 #endif

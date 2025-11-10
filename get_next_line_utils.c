@@ -42,7 +42,7 @@ char	line_end_found(char *buffer)
 	return (0);
 }
 
-size_t	_strlen(char *str)
+static size_t	_strlen(char *str)
 {
 	size_t	i;
 
