@@ -47,7 +47,7 @@ char	line_end_found(char *buffer)
 {
 	while (*buffer)
 	{
-		if (*buffer == '%' || *buffer == '\n')
+		if (*buffer == '\n')
 			return (1);
 		buffer++;
 	}
