@@ -70,7 +70,7 @@ char	*stash_extract_line(char **stash)
 	return (line);
 }
 
-char	*_substr(char *s, unsigned int start, size_t len)
+static char	*_substr(char *s, unsigned int start, size_t len)
 {
 	char	*substr;
 
