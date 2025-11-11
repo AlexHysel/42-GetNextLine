@@ -12,6 +12,18 @@
 
 #include "get_next_line.h"
 
+static size_t	_strlen(char *str)
+{
+	size_t	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 void	stash_expand(char **stash, char *buffer, ssize_t len)
 {
 	char	*expanded;
@@ -42,18 +54,6 @@ char	line_end_found(char *buffer)
 	return (0);
 }
 
-static size_t	_strlen(char *str)
-{
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
 char	*stash_extract_line(char **stash)
 {
 	char	*line;
@@ -70,7 +70,7 @@ char	*stash_extract_line(char **stash)
 	return (line);
 }
 
-char	*_substr(char *s, unsigned int start, size_t len)
+static char	*_substr(char *s, unsigned int start, size_t len)
 {
 	char	*substr;
 
