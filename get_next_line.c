@@ -6,32 +6,41 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/09 13:59:06 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/14 15:40:33 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-//#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
 	static char	*stash;
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 	ssize_t		was_read;
 
-	while (1)
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	if (!line_end_found(stash))
 	{
-		if (stash && line_end_found(stash))
-			break ;
-		was_read = read(fd, buffer, BUFFER_SIZE);
-		if (was_read <= 0)
-			return (NULL);
-		buffer[was_read] = '\0';
-		stash_expand(&stash, buffer, was_read);
+		while (!stash || !line_end_found(buffer))
+		{
+			was_read = read(fd, buffer, BUFFER_SIZE);
+			if (was_read <= 0)
+			{
+				free(buffer);
+				return (stash_extract_line(&stash, was_read));
+			}
+			buffer[was_read] = '\0';
+			stash_expand(&stash, buffer, was_read);
+		}
 	}
-	return (stash_extract_line(&stash));
+	free(buffer);
+	return (stash_extract_line(&stash, 1));
 }
 /*
+#include <stdio.h>
+
 int	main(int arg_count, char *args[])
 {
 	int		fd;

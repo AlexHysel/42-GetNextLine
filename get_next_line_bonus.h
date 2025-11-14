@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 14:28:13 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/10 13:48:49 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/12 12:08:40 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*get_next_line(int fd);
 void	stash_expand(char **stash, char *buffer, ssize_t len);
 char	*stash_extract_line(char **stash);
 char	line_end_found(char *buffer);
-char	*_substr(char *str, unsigned int start, size_t len);
 
 typedef struct s_fd_list_node
 {

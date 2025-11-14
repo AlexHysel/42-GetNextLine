@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:43:46 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/09 12:45:58 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/12 12:12:46 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,27 @@ static size_t	_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+static char	*_substr(char *s, unsigned int start, size_t len)
+{
+	char	*substr;
+
+	if (!s)
+		return (NULL);
+	substr = malloc(len + 1);
+	if (substr)
+	{
+		substr[len--] = '\0';
+		while (1)
+		{
+			substr[len] = s[start + len];
+			if (len == 0)
+				break ;
+			len--;
+		}
+	}
+	return (substr);
 }
 
 void	stash_expand(char **stash, char *buffer, ssize_t len)
@@ -68,25 +89,4 @@ char	*stash_extract_line(char **stash)
 	*stash = _substr(*stash, nl + 1, _strlen(*stash) - nl);
 	free(ptr_stash);
 	return (line);
-}
-
-static char	*_substr(char *s, unsigned int start, size_t len)
-{
-	char	*substr;
-
-	if (!s)
-		return (NULL);
-	substr = malloc(len + 1);
-	if (substr)
-	{
-		substr[len--] = '\0';
-		while (1)
-		{
-			substr[len] = s[start + len];
-			if (len == 0)
-				break ;
-			len--;
-		}
-	}
-	return (substr);
 }
