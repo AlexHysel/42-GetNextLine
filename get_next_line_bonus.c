@@ -74,17 +74,17 @@ static char	*stash_extract_line(t_fd_list *node, t_fd_list *list, int was_read)
 static void	stash_expand(char **stash, char *buffer, ssize_t len)
 {
 	char	*expanded;
-	size_t	stash_len;
+	size_t	full_len;
 
-	stash_len = _strlen(*stash);
-	expanded = malloc(stash_len + len + 1);
+	full_len = _strlen(*stash) + len;
+	expanded = malloc(full_len + 1);
 	if (expanded)
 	{
-		expanded[stash_len + len] = '\0';
-		while (len--)
-			expanded[stash_len + len] = buffer[len];
-		while (stash_len--)
-			expanded[stash_len] = (*stash)[stash_len];
+		expanded[full_len] = '\0';
+		while (len)
+			expanded[--full_len] = buffer[--len];
+		while (full_len--)
+			expanded[full_len] = (*stash)[full_len];
 	}
 	free(*stash);
 	*stash = expanded;
