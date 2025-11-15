@@ -61,10 +61,10 @@ static char	*stash_extract_line(t_fd_list *node, t_fd_list *list, int was_read)
 	nl = 0;
 	while (node->stash[nl] && node->stash[nl] != '\n')
 		nl++;
-	line = _substr(node->stash, 0, nl + 1);
+	line = _substr(node->stash, 0, ++nl);
 	ptr_stash = node->stash;
-	if (was_read > 0 && ptr_stash[nl + 1])
-		node->stash = _substr(ptr_stash, nl + 1, _strlen(node->stash) - nl);
+	if (was_read > 0 && ptr_stash[nl])
+		node->stash = _substr(ptr_stash, nl, _strlen(node->stash) - nl);
 	else
 		node->stash = NULL;
 	free(ptr_stash);
