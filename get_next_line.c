@@ -6,11 +6,89 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/14 15:40:33 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/15 13:52:18 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static size_t	_strlen(char *str)
+{
+	size_t	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+static char	*_substr(char *s, unsigned int start, size_t len)
+{
+	char	*substr;
+
+	if (!s || !len)
+		return (NULL);
+	substr = malloc(len + 1);
+	if (substr)
+	{
+		substr[len--] = '\0';
+		while (1)
+		{
+			substr[len] = s[start + len];
+			if (len == 0)
+				break ;
+			len--;
+		}
+	}
+	return (substr);
+}
+
+static void	stash_expand(char **stash, char *buffer, ssize_t len)
+{
+	char	*expanded;
+	size_t	stash_len;
+
+	stash_len = _strlen(*stash);
+	expanded = malloc(stash_len + len + 1);
+	if (expanded)
+	{
+		expanded[stash_len + len] = '\0';
+		while (len--)
+			expanded[stash_len + len] = buffer[len];
+		while (stash_len--)
+			expanded[stash_len] = (*stash)[stash_len];
+	}
+	free(*stash);
+	*stash = expanded;
+}
+
+static char	*stash_extract_line(char **stash, int was_read)
+{
+	char	*line;
+	char	*ptr_stash;
+	size_t	nl;
+
+	if (!*stash)
+		return (NULL);
+	if (was_read < 0)
+	{
+		free(*stash);
+		return (NULL);
+	}
+	nl = 0;
+	while ((*stash)[nl] && (*stash)[nl] != '\n')
+		nl++;
+	line = _substr(*stash, 0, nl + 1);
+	ptr_stash = *stash;
+	if (was_read > 0 && ptr_stash[nl + 1])
+		*stash = _substr(*stash, nl + 1, _strlen(*stash) - nl);
+	else
+		*stash = NULL;
+	free(ptr_stash);
+	return (line);
+}
 
 char	*get_next_line(int fd)
 {

@@ -12,60 +12,10 @@
 
 #include "get_next_line_bonus.h"
 
-static size_t	_strlen(char *str)
-{
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-static char	*_substr(char *s, unsigned int start, size_t len)
-{
-	char	*substr;
-
-	if (!s)
-		return (NULL);
-	substr = malloc(len + 1);
-	if (substr)
-	{
-		substr[len--] = '\0';
-		while (1)
-		{
-			substr[len] = s[start + len];
-			if (len == 0)
-				break ;
-			len--;
-		}
-	}
-	return (substr);
-}
-
-void	stash_expand(char **stash, char *buffer, ssize_t len)
-{
-	char	*expanded;
-	size_t	stash_len;
-
-	stash_len = _strlen(*stash);
-	expanded = malloc(stash_len + len + 1);
-	if (expanded)
-	{
-		expanded[stash_len + len] = '\0';
-		while (len--)
-			expanded[stash_len + len] = buffer[len];
-		while (stash_len--)
-			expanded[stash_len] = (*stash)[stash_len];
-	}
-	free(*stash);
-	*stash = expanded;
-}
-
 char	line_end_found(char *buffer)
 {
+	if (!buffer)
+		return (0);
 	while (*buffer)
 	{
 		if (*buffer == '\n')
@@ -75,18 +25,61 @@ char	line_end_found(char *buffer)
 	return (0);
 }
 
-char	*stash_extract_line(char **stash)
+t_fd_list	*node_by_fd(t_fd_list *list, int fd)
 {
-	char	*line;
-	char	*ptr_stash;
-	size_t	nl;
+	while (list && list->fd != fd)
+		list = list->next;
+	return (list);
+}
 
-	nl = 0;
-	while ((*stash)[nl] && (*stash)[nl] != '\n' && (*stash)[nl] != '%')
-		nl++;
-	line = _substr(*stash, 0, nl + 1);
-	ptr_stash = *stash;
-	*stash = _substr(*stash, nl + 1, _strlen(*stash) - nl);
-	free(ptr_stash);
-	return (line);
+void	remove_node(int fd, t_fd_list **list)
+{
+	t_fd_list	*prev_n;
+	t_fd_list	*curr_n;
+
+	if (*list)
+	{
+		curr_n = *list;
+		prev_n = NULL;
+		while (curr_n)
+		{
+			if (curr_n->fd == fd)
+			{
+				if (prev_n)
+					prev_n->next = curr_n->next;
+				else
+					*list = curr_n->next;
+				free(curr_n->stash);
+				free(curr_n);
+				return ;
+			}
+			prev_n = curr_n;
+			curr_n = curr_n->next;
+		}
+	}
+}
+
+t_fd_list	*add_node(t_fd_list **list, int fd)
+{
+	t_fd_list	*node;
+
+	node = node_by_fd(*list, fd);
+	if (node)
+		return (node);
+	node = malloc(sizeof(t_fd_list));
+	if (node)
+	{
+		node->fd = fd;
+		node->stash = NULL;
+		node->next = NULL;
+		if (*list)
+		{
+			while ((*list)->next)
+				list = &((*list)->next);
+			(*list)->next = node;
+		}
+		else
+			*list = node;
+	}
+	return (node);
 }

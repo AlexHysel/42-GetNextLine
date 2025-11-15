@@ -21,10 +21,8 @@
 # include <stdlib.h>
 # include <sys/types.h>
 
-char	*get_next_line(int fd);
-void	stash_expand(char **stash, char *buffer, ssize_t len);
-char	*stash_extract_line(char **stash);
-char	line_end_found(char *buffer);
+char		*get_next_line(int fd);
+char		line_end_found(char *buffer);
 
 typedef struct s_fd_list_node
 {
@@ -32,5 +30,9 @@ typedef struct s_fd_list_node
 	char					*stash;
 	struct s_fd_list_node	*next;
 }	t_fd_list;
+
+char		line_end_found(char *buffer);
+void		remove_node(int fd, t_fd_list **list);
+t_fd_list	*add_node(t_fd_list **list, int fd);
 
 #endif

@@ -22,8 +22,6 @@
 # include <sys/types.h>
 
 char	*get_next_line(int fd);
-void	stash_expand(char **stash, char *buffer, ssize_t len);
-char	*stash_extract_line(char **stash, int was_read);
 char	line_end_found(char *buffer);
 
 #endif
