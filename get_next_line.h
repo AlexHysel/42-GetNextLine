@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:21:16 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/12 12:08:48 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/15 14:28:29 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@
 
 char	*get_next_line(int fd);
 char	line_end_found(char *buffer);
+char	*init(size_t size);
 
 #endif

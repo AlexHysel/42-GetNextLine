@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 14:28:13 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/12 12:08:40 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/15 14:28:58 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 char		*get_next_line(int fd);
 char		line_end_found(char *buffer);
+char		*init(size_t size);
 
 typedef struct s_fd_list_node
 {

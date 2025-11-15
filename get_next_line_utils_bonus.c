@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:43:46 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/12 12:12:46 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/15 14:33:55 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,18 @@ t_fd_list	*add_node(t_fd_list **list, int fd)
 			*list = node;
 	}
 	return (node);
+}
+
+char	*init(size_t size)
+{
+	char	*result;
+
+	result = malloc(size + 1);
+	if (result)
+	{
+		while (size > 0)
+			result[size--] = 0;
+		result[0] = 0;
+	}
+	return (result);
 }

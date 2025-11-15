@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/15 13:52:18 by afomin           ###   ########.fr       */
+/*   Updated: 2025/11/15 14:30:56 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	ssize_t		was_read;
 
-	buffer = malloc(BUFFER_SIZE + 1);
+	buffer = init(BUFFER_SIZE);
 	if (!buffer)
 		return (NULL);
 	if (!line_end_found(stash))
@@ -109,7 +109,6 @@ char	*get_next_line(int fd)
 				free(buffer);
 				return (stash_extract_line(&stash, was_read));
 			}
-			buffer[was_read] = '\0';
 			stash_expand(&stash, buffer, was_read);
 		}
 	}
