@@ -80,10 +80,10 @@ static char	*stash_extract_line(char **stash, int was_read)
 	nl = 0;
 	while ((*stash)[nl] && (*stash)[nl] != '\n')
 		nl++;
-	line = _substr(*stash, 0, nl + 1);
+	line = _substr(*stash, 0, ++nl);
 	ptr_stash = *stash;
-	if (was_read > 0 && ptr_stash[nl + 1])
-		*stash = _substr(*stash, nl + 1, _strlen(*stash) - nl);
+	if (was_read > 0 && ptr_stash[nl])
+		*stash = _substr(*stash, nl, _strlen(*stash) - nl);
 	else
 		*stash = NULL;
 	free(ptr_stash);
