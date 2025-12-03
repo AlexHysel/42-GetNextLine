@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/15 14:30:56 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:29:02 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,26 +64,21 @@ static void	stash_expand(char **stash, char *buffer, ssize_t len)
 	*stash = expanded;
 }
 
-static char	*stash_extract_line(char **stash, int was_read)
+static char	*stash_extract_line(char **stash)
 {
 	char	*line;
 	char	*ptr_stash;
 	size_t	nl;
+	size_t	stash_len;
 
-	if (!*stash)
-		return (NULL);
-	if (was_read < 0)
-	{
-		free(*stash);
-		return (NULL);
-	}
 	nl = 0;
 	while ((*stash)[nl] && (*stash)[nl] != '\n')
 		nl++;
+	stash_len = _strlen(*stash);
 	line = _substr(*stash, 0, ++nl);
 	ptr_stash = *stash;
-	if (was_read > 0 && ptr_stash[nl])
-		*stash = _substr(*stash, nl, _strlen(*stash) - nl);
+	if (nl < stash_len)
+		*stash = _substr(*stash, nl, stash_len - nl);
 	else
 		*stash = NULL;
 	free(ptr_stash);
@@ -99,21 +94,21 @@ char	*get_next_line(int fd)
 	buffer = init(BUFFER_SIZE);
 	if (!buffer)
 		return (NULL);
+	was_read = BUFFER_SIZE;
 	if (!line_end_found(stash))
 	{
-		while (!stash || !line_end_found(buffer))
+		while (was_read == BUFFER_SIZE && !line_end_found(buffer))
 		{
 			was_read = read(fd, buffer, BUFFER_SIZE);
-			if (was_read <= 0)
-			{
-				free(buffer);
-				return (stash_extract_line(&stash, was_read));
-			}
 			stash_expand(&stash, buffer, was_read);
 		}
 	}
 	free(buffer);
-	return (stash_extract_line(&stash, 1));
+	if (was_read > 0)
+		return (stash_extract_line(&stash));
+	if (stash)
+		free(stash);
+	return (NULL);
 }
 /*
 #include <stdio.h>
@@ -134,6 +129,7 @@ int	main(int arg_count, char *args[])
 	while (line)
 	{
 		printf("%s", line);
+		free(line);
 		line = get_next_line(fd);
 	}
 	printf("================\n\n");

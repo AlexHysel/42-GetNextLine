@@ -6,7 +6,7 @@
 /*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 14:00:13 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/15 14:31:52 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:29:25 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,23 @@ static char	*_substr(char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-static char	*stash_extract_line(t_fd_list *node, t_fd_list *list, int was_read)
+static char	*stash_extract_line(t_fd_list *node)
 {
 	char	*line;
 	char	*ptr_stash;
 	size_t	nl;
+	size_t	stash_len;
 
 	if (!node->stash)
 		return (NULL);
-	if (was_read < 0)
-	{
-		remove_node(node->fd, &list);
-		return (NULL);
-	}
+	stash_len = _strlen(node->stash);
 	nl = 0;
 	while (node->stash[nl] && node->stash[nl] != '\n')
 		nl++;
 	line = _substr(node->stash, 0, ++nl);
 	ptr_stash = node->stash;
-	if (was_read > 0 && ptr_stash[nl])
-		node->stash = _substr(ptr_stash, nl, _strlen(node->stash) - nl);
+	if (nl < stash_len && ptr_stash[nl])
+		node->stash = _substr(ptr_stash, nl, stash_len - nl);
 	else
 		node->stash = NULL;
 	free(ptr_stash);
@@ -101,21 +98,20 @@ char	*get_next_line(int fd)
 	buffer = init(BUFFER_SIZE);
 	if (!buffer)
 		return (NULL);
+	was_read = BUFFER_SIZE;
 	if (!line_end_found(node->stash))
 	{
-		while (!node->stash || !line_end_found(buffer))
+		while (!line_end_found(buffer) && was_read == BUFFER_SIZE)
 		{
 			was_read = read(fd, buffer, BUFFER_SIZE);
-			if (was_read <= 0)
-			{
-				free(buffer);
-				return (stash_extract_line(node, list, was_read));
-			}
 			stash_expand(&node->stash, buffer, was_read);
 		}
 	}
 	free(buffer);
-	return (stash_extract_line(node, list, 1));
+	if (was_read > 0)
+		return (stash_extract_line(node));
+	remove_node(node->fd, &list);
+	return (NULL);
 }
 /*
 #include <stdlib.h>
