@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
+/*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:21:16 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/15 14:28:29 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:42:42 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/types.h>
 
 char	*get_next_line(int fd);
-char	line_end_found(char *buffer);
-char	*init(size_t size);
+void	*ft_calloc(size_t num, size_t size);
+char	*ft_strchr(char *str, int symbol);
 
 #endif

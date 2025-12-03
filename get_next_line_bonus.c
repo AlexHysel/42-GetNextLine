@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
+/*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 14:00:13 by afomin            #+#    #+#             */
-/*   Updated: 2025/12/03 15:29:25 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:50:40 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static size_t	_strlen(char *str)
+static size_t	ft_strlen(char *str)
 {
 	size_t	i;
 
@@ -54,7 +54,7 @@ static char	*stash_extract_line(t_fd_list *node)
 
 	if (!node->stash)
 		return (NULL);
-	stash_len = _strlen(node->stash);
+	stash_len = ft_strlen(node->stash);
 	nl = 0;
 	while (node->stash[nl] && node->stash[nl] != '\n')
 		nl++;
@@ -73,7 +73,7 @@ static void	stash_expand(char **stash, char *buffer, ssize_t len)
 	char	*expanded;
 	size_t	full_len;
 
-	full_len = _strlen(*stash) + len;
+	full_len = ft_strlen(*stash) + len;
 	expanded = malloc(full_len + 1);
 	if (expanded)
 	{
@@ -95,13 +95,13 @@ char	*get_next_line(int fd)
 	ssize_t				was_read;
 
 	node = add_node(&list, fd);
-	buffer = init(BUFFER_SIZE);
+	buffer = ft_calloc(BUFFER_SIZE, 1);
 	if (!buffer)
 		return (NULL);
 	was_read = BUFFER_SIZE;
-	if (!line_end_found(node->stash))
+	if (!ft_strchr(node->stash, '\n'))
 	{
-		while (!line_end_found(buffer) && was_read == BUFFER_SIZE)
+		while (was_read == BUFFER_SIZE && !ft_strchr(buffer, '\n'))
 		{
 			was_read = read(fd, buffer, BUFFER_SIZE);
 			stash_expand(&node->stash, buffer, was_read);

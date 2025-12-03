@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
+/*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/12/03 15:29:02 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:48:10 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static size_t	_strlen(char *str)
+static size_t	ft_strlen(char *str)
 {
 	size_t	i;
 
@@ -50,7 +50,7 @@ static void	stash_expand(char **stash, char *buffer, ssize_t len)
 	char	*expanded;
 	size_t	full_len;
 
-	full_len = _strlen(*stash) + len;
+	full_len = ft_strlen(*stash) + len;
 	expanded = malloc(full_len + 1);
 	if (expanded)
 	{
@@ -74,7 +74,7 @@ static char	*stash_extract_line(char **stash)
 	nl = 0;
 	while ((*stash)[nl] && (*stash)[nl] != '\n')
 		nl++;
-	stash_len = _strlen(*stash);
+	stash_len = ft_strlen(*stash);
 	line = _substr(*stash, 0, ++nl);
 	ptr_stash = *stash;
 	if (nl < stash_len)
@@ -91,13 +91,13 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	ssize_t		was_read;
 
-	buffer = init(BUFFER_SIZE);
+	buffer = ft_calloc(BUFFER_SIZE, 1);
 	if (!buffer)
 		return (NULL);
 	was_read = BUFFER_SIZE;
-	if (!line_end_found(stash))
+	if (!ft_strchr(stash, '\n'))
 	{
-		while (was_read == BUFFER_SIZE && !line_end_found(buffer))
+		while (was_read == BUFFER_SIZE && !ft_strchr(buffer, '\n'))
 		{
 			was_read = read(fd, buffer, BUFFER_SIZE);
 			stash_expand(&stash, buffer, was_read);

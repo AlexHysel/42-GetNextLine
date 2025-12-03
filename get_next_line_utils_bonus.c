@@ -3,26 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
+/*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:43:46 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/15 14:33:55 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:53:19 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	line_end_found(char *buffer)
+char	*ft_strchr(char *str, int symbol)
 {
-	if (!buffer)
-		return (0);
-	while (*buffer)
+	if (str)
 	{
-		if (*buffer == '\n')
-			return (1);
-		buffer++;
+		while (*str)
+		{
+			if (*str == symbol)
+				return ((char *)str);
+			str++;
+		}
+		if (!symbol)
+			return ((char *)str);
 	}
-	return (0);
+	return (NULL);
+}
+
+void	*ft_calloc(size_t num, size_t size)
+{
+	void	*array;
+	size_t	i;
+
+	if (num && size > (size_t)-1 / num)
+		return (NULL);
+	i = size * num;
+	array = malloc(i);
+	if (array)
+		while (i-- > 0)
+			array[i] = 0;
+	return (array);
 }
 
 t_fd_list	*node_by_fd(t_fd_list *list, int fd)
@@ -82,18 +100,4 @@ t_fd_list	*add_node(t_fd_list **list, int fd)
 			*list = node;
 	}
 	return (node);
-}
-
-char	*init(size_t size)
-{
-	char	*result;
-
-	result = malloc(size + 1);
-	if (result)
-	{
-		while (size > 0)
-			result[size--] = 0;
-		result[0] = 0;
-	}
-	return (result);
 }

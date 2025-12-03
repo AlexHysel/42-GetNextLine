@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afomin <alexhysel@gmail.com>               +#+  +:+       +#+        */
+/*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 14:28:13 by afomin            #+#    #+#             */
-/*   Updated: 2025/11/15 14:28:58 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:44:31 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <sys/types.h>
 
 char		*get_next_line(int fd);
-char		line_end_found(char *buffer);
-char		*init(size_t size);
+void		*ft_calloc(size_t num, size_t size);
+char		*ft_strchr(char *str, int symbol);
 
 typedef struct s_fd_list_node
 {
