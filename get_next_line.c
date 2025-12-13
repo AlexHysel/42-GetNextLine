@@ -6,7 +6,7 @@
 /*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:05:34 by afomin            #+#    #+#             */
-/*   Updated: 2025/12/13 18:12:21 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/13 18:47:11 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	was_read = BUFFER_SIZE;
-	if (!ft_strchr(stash, '\n'))
+	if (!ft_strchr(stash, '\n') && !stash)
 	{
 		while (was_read == BUFFER_SIZE && !ft_strchr(buffer, '\n'))
 		{
@@ -110,7 +110,7 @@ char	*get_next_line(int fd)
 		free(stash);
 	return (NULL);
 }
-/*
+
 #include <stdio.h>
 
 int	main(int arg_count, char *args[])
@@ -133,4 +133,4 @@ int	main(int arg_count, char *args[])
 		line = get_next_line(fd);
 	}
 	printf("================\n\n");
-}*/
+}
