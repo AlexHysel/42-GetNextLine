@@ -6,7 +6,7 @@
 /*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:43:46 by afomin            #+#    #+#             */
-/*   Updated: 2025/12/03 15:53:19 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/03 15:58:32 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strchr(char *str, int symbol)
 
 void	*ft_calloc(size_t num, size_t size)
 {
-	void	*array;
+	char	*array;
 	size_t	i;
 
 	if (num && size > (size_t)-1 / num)
