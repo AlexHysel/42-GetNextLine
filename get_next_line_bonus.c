@@ -6,7 +6,7 @@
 /*   By: afomin afomin@student.42kl.edu.my          #+#  +:+        #+#       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 14:00:13 by afomin            #+#    #+#             */
-/*   Updated: 2025/12/13 18:40:09 by afomin           ###   ########.fr       */
+/*   Updated: 2025/12/14 13:42:53 by afomin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ char	*get_next_line(int fd)
 		while (was_read == BUFFER_SIZE && !ft_strchr(buffer, '\n'))
 		{
 			was_read = read(fd, buffer, BUFFER_SIZE);
+			if (was_read == -1)
+				break ;
 			stash_expand(&node->stash, buffer, was_read);
 		}
 	}
